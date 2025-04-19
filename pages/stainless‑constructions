@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NG Inox – Κατασκευές από ανοξείδωτο χάλυβα</title>
+  <link rel="icon" href="favicon.ico">
+  <!-- Google Fonts & Font Awesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #002d46;
+      --accent: #00AACC;
+      --light-gray: #f5f5f5;
+      --white: #ffffff;
+      --font: 'Inter', sans-serif;
+    }
+    * { box-sizing: border-box; margin:0; padding:0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font); color: var(--navy); background: var(--white); }
+    a { color: inherit; text-decoration: none; }
+    img { max-width:100%; display:block; }
+    .container { max-width:1200px; margin:0 auto; padding:0 1rem; }
+    header { position:sticky; top:0; background:var(--white); border-bottom:1px solid var(--light-gray); z-index:100; }
+    .nav { display:flex; align-items:center; justify-content:space-between; height:70px; }
+    .logo img { height:50px; }
+    .menu-toggle { display:none; font-size:1.5rem; background:none; border:none; cursor:pointer; }
+    nav ul { display:flex; list-style:none; gap:1.5rem; }
+    nav a { font-weight:600; padding:0.5rem; transition: color .3s; }
+    nav a:hover { color: var(--accent); }
+    .btn-primary { background:var(--accent); color:var(--white); padding:0.6rem 1.2rem; border-radius:4px; font-weight:600; }
+    section { padding:4rem 0; }
+    h2 { font-size:2rem; text-align:center; margin-bottom:1rem; }
+    /* Form Note */
+    .form-note {
+      font-size: 0.875rem;
+      color: #666;
+      margin-bottom: 1rem;
+    }
+    /* Hero */
+    .hero { position:relative; background:url('https://www.nginoxxylouris.gr/wp-content/uploads/2023/07/thumbnail_image_6487327.jpg') center/cover no-repeat; height:80vh; display:flex; align-items:center; }
+    .hero::before { content:''; position:absolute; inset:0; background:rgba(0,0,0,0.5); }
+    .hero-content { position:relative; z-index:1; max-width:600px; margin-left:2rem; }
+    .hero-logo { width:120px; margin-bottom:1rem; }
+    .hero-content h1 { font-size:3rem; margin-bottom:1rem; color:var(--white); }
+    .hero-content p { font-size:1.25rem; margin-bottom:1.5rem; color:var(--white); }
+    /* About */
+    .about p { max-width:800px; margin:1rem auto; line-height:1.6; }
+    /* About Section Extra Spacing */
+    #about {
+      padding-top: 3rem;
+    }
+    /* Stats Section */
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      margin-top: 2rem;
+    }
+    .stats div {
+      text-align: center;
+    }
+    .stats strong {
+      display: block;
+      font-size: 2rem;
+      color: var(--accent);
+    }
+
+    /* Services Cards */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+    .card {
+      background: var(--light-gray);
+      padding: 2rem;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .card h3 {
+      margin-bottom: 0.75rem;
+    }
+
+    /* Works Section Styling */
+    #works > h2 {
+      text-align: center;
+      font-size: 2.5rem;
+      position: relative;
+      display: inline-block;
+      padding-bottom: 0.5rem;
+      margin-bottom: 2rem;
+    }
+    #works > h2::after {
+      content: "";
+      position: absolute;
+      width: 60px;
+      height: 4px;
+      background: var(--accent);
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 2px;
+    }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    .project-card {
+      position: relative;
+      background: var(--white);
+      border: 1px solid transparent;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s, background 0.3s, border-color 0.3s;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      cursor: pointer;
+    }
+    .project-card:hover {
+      background: var(--light-gray);
+      transform: scale(1.03) translateY(-6px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      border-color: var(--accent);
+    }
+    .project-card::after {
+      content: '→';
+      position: absolute;
+      bottom: 1rem;
+      right: 1rem;
+      font-size: 1.5rem;
+      color: var(--accent);
+      opacity: 0;
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    .project-card:hover::after {
+      opacity: 1;
+      transform: translateX(5px);
+    }
+    .project-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .project-card .info {
+      padding: 1.5rem;
+    }
+    .project-card h3 {
+      margin-bottom: 0.75rem;
+      color: var(--navy);
+    }
+    .project-card p {
+      font-size: 0.95rem;
+      color: var(--navy);
+      line-height: 1.4;
+    }
+    /* Services Section Extra Spacing */
+    #services {
+      padding-top: 6rem;
+    }
+    /* Works Section Extra Spacing */
+    #works {
+      padding-top: 6rem;
+    }
+    /* Contact Section */
+    .contact-section {
+      margin-top: 2rem;
+      padding: 6rem 0;
+      background: var(--light-gray);
+    }
+    .contact-header {
+      text-align: center;
+      margin: -3rem 0 2rem;
+    }
+    .contact-header h2 {
+      font-size: 2.5rem;
+      position: relative;
+      display: inline-block;
+      padding-bottom: 0.5rem;
+    }
+    .contact-header h2::after {
+      content: "";
+      position: absolute;
+      width: 60px;
+      height: 4px;
+      background: var(--accent);
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 2px;
+    }
+    .contact-header p {
+      color: var(--navy);
+      font-style: italic;
+    }
+    .contact-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      background: var(--white);
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .info-item {
+      display: flex;
+      align-items: center;
+      flex: 1;
+      width: 100%;
+    }
+    .info-item .icon {
+      font-size: 2.5rem;
+    }
+    .info-item a {
+      font-size: 1.25rem;
+      text-align: center;
+      width: 100%;
+    }
+    .contact-form {
+      background: var(--white);
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .contact-form .form-row {
+      display: flex;
+      gap: 1rem;
+    }
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-family: var(--font);
+    }
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      border-color: var(--accent);
+      outline: none;
+    }
+    .contact-form .btn-primary {
+      align-self: flex-start;
+      padding: 0.75rem 1.5rem;
+      transition: background 0.3s;
+    }
+    .contact-form .btn-primary:hover {
+      background: darken(var(--accent), 10%);
+    }
+    @media (max-width: 768px) {
+      .contact-content {
+        grid-template-columns: 1fr;
+      }
+      .menu-toggle { display:block; }
+      nav ul { display:none; flex-direction:column; background:var(--white); position:absolute; top:70px; left:0; width:100%; padding:1rem; }
+      nav ul.open { display:flex; }
+      .hero-content { margin:0 1rem; }
+      
+      /* Center burger menu */
+      .container.nav {
+        position: relative;
+        justify-content: center;
+      }
+      .menu-toggle {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    }
+  /* Footer Styling */
+  footer {
+    background: var(--navy);
+    color: var(--white);
+    text-align: center;
+    padding: 2rem 1rem;
+    font-size: 0.875rem;
+  }
+  footer p {
+    margin: 0;
+    letter-spacing: 0.5px;
+  }
+  /* Social Links in Footer */
+  .social-links {
+    margin-top: 1rem;
+  }
+  .social-links a {
+    color: var(--white);
+    margin: 0 0.5rem;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .social-links a:hover {
+    color: var(--accent);
+  }
+  .social-links a i {
+    margin-right: 0.5rem;
+    vertical-align: middle;
+  }
+  /* Works Categories */
+  .works-categories {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    list-style: none;
+    padding: 0;
+  }
+  .works-categories li {
+    background: var(--accent);
+    color: var(--white);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  .works-categories li:hover {
+    background: #0088aa;
+  }
+  .works-categories li a {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    color: inherit;
+    text-decoration: none;
+  }
+  @media (max-width: 768px) {
+    .works-categories {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  #contact {
+    padding-top: 5rem;
+    }
+    .section-header h2 {
+      color: var(--white);
+      text-align: center;
+      font-size: 2.5rem;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
+    .intro-text p {
+      max-width: 800px;
+      margin: 1rem auto;
+      line-height: 1.6;
+      font-size: 1rem;
+      color: var(--navy);
+    }
+    .section-header {
+      position: relative;
+      width: 100vw;
+      left: 50%;
+      transform: translateX(-50%);
+      background: url('https://www.nginoxxylouris.gr/wp-content/uploads/2023/03/999.jpg') center/cover no-repeat;
+      height: 40vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+    }
+    .section-header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+    }
+    .section-header h2 {
+      position: relative;
+      z-index: 1;
+      color: var(--white);
+      font-size: 3rem;
+    }
+    /* Gallery layout overrides */
+    .projects-grid { gap: 1rem; }
+    .project-card { padding: 0; background: none; border: none; box-shadow: none; }
+    .project-card img { width: 100%; height: 100%; object-fit: cover; cursor: zoom-in; }
+    /* Modal styles */
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); align-items: center; justify-content: center; z-index: 2000; }
+    .modal-img { max-width: 90%; max-height: 90%; }
+    .modal-close { position: absolute; top: 20px; right: 30px; color: #fff; font-size: 2rem; cursor: pointer; }
+    </style>
+  <script>
+    const translations = {
+      nav_home:    { el:'Αρχική', en:'Home' },
+      nav_about:   { el:'Προφίλ', en:'About Us' },
+      nav_works:   { el:'Έργα', en:'Works' },
+      nav_contact: { el:'Επικοινωνία', en:'Contact' },
+      works_h2:    { el:'Έργα Μηχανουργείου', en:'Machining Works' },
+      works_card1: { el:'Κατασκευές από ανοξείδωτο χάλυβα', en:'Stainless Steel Constructions' },
+      stfab_intro: { el:'Στην NG Inox εξειδικευόμαστε σε πλήρεις κατασκευές από inox 316L: handrails, bitts, platforms, letters & fenders.', en:'At NG Inox we specialize in end‑to‑end 316L stainless steel constructions: handrails, bitts, platforms, letters & fenders.' }
+      , stfab_intro1: {
+          el:'Για την κατασκευή πλοίων και σκαφών αναψυχής είναι σημαντικό να χρησιμοποιείται ένα υλικό ικανό να αντέχει σε επιθετικά θαλάσσια κλίματα και να παραμένει ανθεκτικό στη διάβρωση μακροπρόθεσμα.',
+          en:'For the construction of ships and recreational boats it is important to use a material capable of withstanding aggressive marine climates and remaining corrosion resistant in the long term.'
+        }
+      , stfab_intro2: {
+          el:'Ο ανοξείδωτος χάλυβας είναι η φυσική επιλογή και προσδίδει ομορφιά σε κρουαζιερόπλοια, γιοτ και ferry boat.',
+          en:'Stainless steel is the natural choice and adds beauty to cruise ships, yachts, and ferry boats.'
+        }
+      , stfab_intro3: {
+          el:'Η NG Inox είναι εκεί για εσάς.',
+          en:'NG Inox is here for you.'
+        }
+    };
+    function setLang(lang) {
+      document.documentElement.lang = lang;
+      Object.entries(translations).forEach(([key,val]) => {
+        document.querySelectorAll(`[data-i18n="${key}"]`).forEach(el => el.textContent = val[lang]);
+      });
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const langParam = params.get('lang');
+      const initialLang = (langParam === 'en' ? 'en' : 'el');
+      setLang(initialLang);
+    });
+  </script>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a href="../index.html" class="logo">
+        <img src="https://www.nginoxxylouris.gr/wp-content/uploads/2023/03/Untitled-2.png" alt="NG Inox Logo">
+      </a>
+      <div id="menu-toggle" class="menu-toggle" data-i18n="nav_toggle">☰</div>
+      <nav>
+          <ul id="nav-menu">
+            <li><a href="../index.html#hero" data-i18n="nav_home">Αρχική</a></li>
+            <li><a href="../index.html#about" data-i18n="nav_about">Προφίλ</a></li>
+            <li><a href="../index.html#works" data-i18n="nav_works">Έργα</a></li>
+            <li><a href="../index.html#contact" class="btn-primary" data-i18n="nav_contact">Επικοινωνία</a></li>
+            <li><a href="?lang=el" onclick="event.preventDefault(); setLang('el'); history.replaceState(null,'','?lang=el');">EL</a></li>
+            <li><a href="?lang=en" onclick="event.preventDefault(); setLang('en'); history.replaceState(null,'','?lang=en');">EN</a></li>
+          </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="container" id="stainless-constructions">
+      <div class="section-header">
+        <h2 data-i18n="works_card1">Κατασκευές από ανοξείδωτο χάλυβα</h2>
+      </div>
+      <div class="intro-text">
+        <p data-i18n="stfab_intro1">Για την κατασκευή πλοίων και σκαφών αναψυχής είναι σημαντικό να χρησιμοποιείται ένα υλικό ικανό να αντέχει σε επιθετικά θαλάσσια κλίματα και να παραμένει ανθεκτικό στη διάβρωση μακροπρόθεσμα.</p>
+        <p data-i18n="stfab_intro2">Ο ανοξείδωτος χάλυβας είναι η φυσική επιλογή και προσδίδει ομορφιά σε κρουαζιερόπλοια, γιοτ και ferry boat.</p>
+        <p data-i18n="stfab_intro3">Η NG Inox είναι εκεί για εσάς.</p>
+      </div>
+
+      <div class="projects-grid">
+        <div class="project-card">
+          <img src="https://www.nginoxxylouris.gr/wp-content/uploads/2023/08/image_6487327-5-1.jpg" alt="Κατασκευή inox 1">
+          <div class="info"></div>
+        </div>
+        <div class="project-card">
+          <img src="https://www.nginoxxylouris.gr/wp-content/uploads/2023/08/image_6487327-6.jpg" alt="Κατασκευή inox 2">
+          <div class="info"></div>
+        </div>
+        <div class="project-card">
+          <img src="https://www.nginoxxylouris.gr/wp-content/uploads/2023/08/image_6487327-2-2.jpg" alt="Κατασκευή inox 3">
+          <div class="info"></div>
+        </div>
+        <div class="project-card">
+          <img src="https://www.nginoxxylouris.gr/wp-content/uploads/2024/10/image_1236502911.jpg" alt="Κατασκευή inox 4">
+          <div class="info"></div>
+        </div>
+        <div class="project-card">
+          <img src="https://www.nginoxxylouris.gr/wp-content/uploads/2024/10/image_123650291-1.jpg" alt="Κατασκευή inox 5">
+          <div class="info"></div>
+        </div>
+        <div class="project-card">
+          <img src="https://www.nginoxxylouris.gr/wp-content/uploads/2024/10/image_123650291-3.jpg" alt="Κατασκευή inox 6">
+          <div class="info"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p data-i18n="footer_text">© 2025 NG Inox.</p>
+    <div class="social-links">
+      <a href="https://www.instagram.com/nginoxxylouris/" target="_blank" rel="noopener"><i class="fab fa-instagram"></i> Instagram</a>
+      <a href="https://www.facebook.com/NGinoxxylouris/" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i> Facebook</a>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('menu-toggle').addEventListener('click', function() {
+      document.getElementById('nav-menu').classList.toggle('open');
+    });
+  </script>
+  <!-- Image zoom modal -->
+  <div id="image-modal" class="modal">
+    <span class="modal-close">&times;</span>
+    <img id="modal-img" class="modal-img" src="" alt="Zoomed image">
+  </div>
+  <script>
+    // Image click to zoom
+    document.querySelectorAll('.projects-grid .project-card img').forEach(img => {
+      img.addEventListener('click', () => {
+        const modal = document.getElementById('image-modal');
+        const modalImg = document.getElementById('modal-img');
+        modalImg.src = img.src;
+        modal.style.display = 'flex';
+      });
+    });
+    // Close modal
+    document.querySelector('.modal-close').addEventListener('click', () => {
+      document.getElementById('image-modal').style.display = 'none';
+    });
+  </script>
+</body>
+</html>
