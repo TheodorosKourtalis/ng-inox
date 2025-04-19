@@ -58,7 +58,7 @@
     .about p { max-width:800px; margin:1rem auto; line-height:1.6; }
     /* About Section Extra Spacing */
     #about {
-      padding-top: 6rem;
+      padding-top: 3rem;
     }
     /* Stats Section */
     .stats {
@@ -119,15 +119,34 @@
       margin-top: 2rem;
     }
     .project-card {
+      position: relative;
       background: var(--white);
+      border: 1px solid transparent;
       border-radius: 8px;
       overflow: hidden;
-      transition: transform 0.3s, box-shadow 0.3s;
+      transition: transform 0.3s, box-shadow 0.3s, background 0.3s, border-color 0.3s;
       box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      cursor: pointer;
     }
     .project-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+      background: var(--light-gray);
+      transform: scale(1.03) translateY(-6px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      border-color: var(--accent);
+    }
+    .project-card::after {
+      content: '→';
+      position: absolute;
+      bottom: 1rem;
+      right: 1rem;
+      font-size: 1.5rem;
+      color: var(--accent);
+      opacity: 0;
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    .project-card:hover::after {
+      opacity: 1;
+      transform: translateX(5px);
     }
     .project-card img {
       width: 100%;
@@ -336,6 +355,59 @@
     padding-top: 5rem;
   }
   </style>
+  <!-- i18n translation script -->
+<script>
+  const translations = {
+    nav_home:    { el:'Αρχική', en:'Home' },
+    nav_about:   { el:'Προφίλ', en:'About Us' },
+    nav_works:   { el:'Έργα', en:'Works' },
+    nav_contact: { el:'Επικοινωνία', en:'Contact' },
+    hero_title:  { el:'Ανακαινίσεις Yacht & Σκαφών Παγκοσμίως', en:'Worldwide Yacht & Boat Renovations' },
+    hero_text:   { el:'Εξειδίκευση σε ανακαινίσεις yacht και custom inox 316L κατασκευές με mirror finish.', en:'Expertise in yacht renovations and custom 316L inox constructions with mirror finish.' },
+    hero_btn:    { el:'Συζητήσετε μαζί μας', en:'Contact us' },
+    about_h2:    { el:'Σχετικά με Εμάς', en:'About Us' },
+    about_p1:    { el:'Σε μια περίοδο 45 ετών, αυτό που ξεκίνησε ως επιχείρηση πατέρα σε γιο έχει πλέον εξελιχθεί σε μια εξειδικευμένη κατασκευαστική τέχνη με αποδεδειγμένο ρεκόρ έργων χαρτοφυλακίου.', en:'Over 45 years, what began as a father-to-son business has evolved into a specialized craft with a proven portfolio.' },
+    about_p2:    { el:'Η ομάδα των ειδικών μας έχει δεσμευτεί να προσφέρει εργασία υψηλής ποιότητας σε όλους τους πελάτες μας.', en:'Our expert team is committed to delivering high-quality work to all our clients.' },
+    about_p3:    { el:'Στην NG INOX θα χαρούμε να συζητήσουμε και να σχεδιάσουμε το ιδιαίτερο έργο σας.', en:'At NG INOX, we’d be delighted to discuss and design your unique project.' },
+    stats_years: { el:'Χρόνια', en:'Years' },
+    works_h2:    { el:'Έργα Μηχανουργείου', en:'Machining Works' },
+    works_card1: { el:'Κατασκευές από ανοξείδωτο χάλυβα', en:'Stainless Steel Constructions' },
+    works_card2: { el:'Χειρολισθήρες & κουπαστές από ανοξείδωτο χάλυβα', en:'Stainless Steel Handrails & Guardrails' },
+    works_card3: { el:'Ανοξείδωτες σκάλες', en:'Stainless Steel Staircases' },
+    works_card4: { el:'Όργανα & Καθρέφτες & Μπύτες', en:'Fittings & Mirrors & Bitts' },
+    works_card5: { el:'Γράμματα από ανοξείδωτο χάλυβα 316L & Γράμματα Carbon', en:'316L Stainless Steel Letters & Carbon Letters' },
+    works_card6: { el:'Fenders', en:'Fenders' },
+    works_card7: { el:'Κολώνες Σκίασης', en:'Shade Poles' },
+    works_card8: { el:'PROLINER – 3D SCANNER', en:'PROLINER – 3D SCANNER' },
+    contact_h2:  { el:'Επικοινωνήστε μαζί μας', en:'Contact Us' },
+    contact_sub: { el:'Θα χαρούμε να σας ακούσουμε — επιλέξτε τον τρόπο επικοινωνίας που σας βολεύει.', en:'We’d love to hear from you — choose your preferred contact method.' },
+    form_note:   { el:'Αυτή είναι η φόρμα επικοινωνίας μας. Μπορείτε να στείλετε email απευθείας από εδώ.', en:'This is our contact form. You can send an email directly from here.' },
+    form_btn:    { el:'Αποστολή', en:'Send' },
+    name_placeholder:    { el:'Όνομα*', en:'Name*' },
+    email_placeholder:   { el:'Email*', en:'Email*' },
+    message_placeholder: { el:'Μήνυμά σας*', en:'Your Message*' },
+    footer_text:         { el:'© 2025 NG Inox.', en:'© 2025 NG Inox.' }
+  };
+  function setLang(lang) {
+    document.documentElement.lang = lang;
+    Object.entries(translations).forEach(([key,val]) => {
+      document.querySelectorAll(`[data-i18n="${key}"]`).forEach(el => el.textContent = val[lang]);
+    });
+    // update placeholders
+    Object.entries(translations).forEach(([key,val]) => {
+      document.querySelectorAll(`[data-i18n-placeholder="${key}"]`).forEach(el => {
+        el.setAttribute('placeholder', val[lang]);
+      });
+    });
+  }
+  // Initialize language based on URL parameter ?lang= on DOM ready
+  document.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    const langParam = params.get('lang');
+    const initialLang = (langParam === 'en' ? 'en' : 'el');
+    setLang(initialLang);
+  });
+</script>
 </head>
 <body>
   <header>
@@ -344,12 +416,12 @@
       <button class="menu-toggle" id="menu-toggle" aria-label="Μενού">☰</button>
       <nav>
         <ul id="nav-menu">
-          <li><a href="#hero">Αρχική</a></li>
-          <li><a href="#about">Προφίλ</a></li>
-          <li><a href="#services">Υπηρεσίες</a></li>
-          <li><a href="#works">Έργα</a></li>
-          <li><a href="#contact" class="btn-primary">Επικοινωνία</a></li>
-          <li><a href="?lang=en">EN</a></li>
+          <li><a href="#hero" data-i18n="nav_home">Αρχική</a></li>
+          <li><a href="#about" data-i18n="nav_about">Προφίλ</a></li>
+          <li><a href="#works" data-i18n="nav_works">Έργα</a></li>
+          <li><a href="#contact" class="btn-primary" data-i18n="nav_contact">Επικοινωνία</a></li>
+          <li><a href="?lang=el" onclick="event.preventDefault(); setLang('el'); history.replaceState(null, '', '?lang=el');">EL</a></li>
+          <li><a href="?lang=en" onclick="event.preventDefault(); setLang('en'); history.replaceState(null, '', '?lang=en');">EN</a></li>
         </ul>
       </nav>
     </div>
@@ -359,52 +431,43 @@
     <section class="hero" id="hero">
       <div class="hero-content">
         <img src="https://www.nginoxxylouris.gr/wp-content/uploads/2023/03/Untitled-2.png" alt="NG Inox Logo" class="hero-logo">
-        <h1>Ανακαινίσεις Yacht & Σκαφών Παγκοσμίως</h1>
-        <p>Εξειδίκευση σε ανακαινίσεις yacht και custom inox 316L κατασκευές με mirror finish.</p>
-        <a href="#contact" class="btn-primary">Συζητήσετε μαζί μας</a>
+        <h1 data-i18n="hero_title">Ανακαινίσεις Yacht & Σκαφών Παγκοσμίως</h1>
+        <p data-i18n="hero_text">Εξειδίκευση σε ανακαινίσεις yacht και custom inox 316L κατασκευές με mirror finish.</p>
+        <a id="hero-button" href="#contact" class="btn-primary" data-i18n="hero_btn">Συζητήσετε μαζί μας</a>
       </div>
     </section>
     <!-- About -->
     <section class="about container" id="about">
-      <h2>Σχετικά με Εμάς</h2>
-      <p>Σε μια περίοδο 45 ετών, αυτό που ξεκίνησε ως επιχείρηση πατέρα σε γιο έχει πλέον εξελιχθεί σε μια εξειδικευμένη κατασκευαστική τέχνη με αποδεδειγμένο ρεκόρ έργων χαρτοφυλακίου.</p>
-      <p>Η ομάδα των ειδικών μας έχει δεσμευτεί να προσφέρει εργασία υψηλής ποιότητας σε όλους τους πελάτες μας.</p>
-      <p>Στην NG INOX θα χαρούμε να συζητήσουμε και να σχεδιάσουμε το ιδιαίτερο έργο σας.</p>
+      <h2 data-i18n="about_h2">Σχετικά με Εμάς</h2>
+      <p data-i18n="about_p1">Σε μια περίοδο 45 ετών, αυτό που ξεκίνησε ως επιχείρηση πατέρα σε γιο έχει πλέον εξελιχθεί σε μια εξειδικευμένη κατασκευαστική τέχνη με αποδεδειγμένο ρεκόρ έργων χαρτοφυλακίου.</p>
+      <p data-i18n="about_p2">Η ομάδα των ειδικών μας έχει δεσμευτεί να προσφέρει εργασία υψηλής ποιότητας σε όλους τους πελάτες μας.</p>
+      <p data-i18n="about_p3">Στην NG INOX θα χαρούμε να συζητήσουμε και να σχεδιάσουμε το ιδιαίτερο έργο σας.</p>
       <div class="stats">
-        <div><strong>45+</strong> Χρόνια</div>
+        <div><strong>45+</strong> <span data-i18n="stats_years">Χρόνια</span></div>
         <div><strong>150+</strong> Yacht Projects</div>
         <div><strong>100%</strong> Mirror Finish</div>
       </div>
     </section>
-    <!-- Services -->
-    <section class="container" id="services">
-      <h2>Υπηρεσίες</h2>
-      <div class="cards">
-        <div class="card"><h3>Ανακαινίσεις Yacht</h3><p>Complete removal, σχεδίαση και επανατοποθέτηση inox εξαρτημάτων.</p></div>
-        <div class="card"><h3>Custom Inox 316L</h3><p>Rails, Bitts, Platforms, Letters & Fenders κατά παραγγελία.</p></div>
-        <div class="card"><h3>3D Proliner Scanning</h3><p>Ακρίβεια ±0,3mm για τη γρήγορη παραγωγή καλουπιών.</p></div>
-      </div>
-    </section>
     <!-- Works -->
-    <section class="container" id="works">
-      <h2>Έργα Μηχανουργείου</h2>
+   <section class="container" id="works">
+      <h2 data-i18n="works_h2">Έργα Μηχανουργείου</h2>
       <div class="projects-grid">
-        <div class="project-card"><a href="#"><div class="info"><h3>Κατασκευές από ανοξείδωτο χάλυβα</h3></div></a></div>
-        <div class="project-card"><a href="#"><div class="info"><h3>Χειρολισθήρες &amp; κουπαστές από ανοξείδωτο χάλυβα</h3></div></a></div>
-        <div class="project-card"><a href="#"><div class="info"><h3>Ανοξείδωτες σκάλες</h3></div></a></div>
-        <div class="project-card"><a href="#"><div class="info"><h3>Όργανα &amp; Καθρέφτες &amp; Μπότες</h3></div></a></div>
-        <div class="project-card"><a href="#"><div class="info"><h3>Γράμματα (inox 316L &amp; Carbon)</h3></div></a></div>
-        <div class="project-card"><a href="#"><div class="info"><h3>Fenders</h3></div></a></div>
-        <div class="project-card"><a href="#"><div class="info"><h3>Κολώνες Σκίασης</h3></div></a></div>
-        <div class="project-card"><a href="#"><div class="info"><h3>PROLINER – 3D SCANNER</h3></div></a></div>
+        <a href="pages/stainless‑constructions.html" class="project-card"><div class="info"><h3 data-i18n="works_card1">Κατασκευές από ανοξείδωτο χάλυβα</h3></div></a>
+        <a href="#" class="project-card"><div class="info"><h3 data-i18n="works_card2">Χειρολισθήρες &amp; κουπαστές από ανοξείδωτο χάλυβα</h3></div></a>
+        <a href="#" class="project-card"><div class="info"><h3 data-i18n="works_card3">Ανοξείδωτες σκάλες</h3></div></a>
+        <a href="#" class="project-card"><div class="info"><h3 data-i18n="works_card4">Όργανα &amp; Καθρέφτες &amp; Μπύτες</h3></div></a>
+        <a href="#" class="project-card"><div class="info"><h3 data-i18n="works_card5">Γράμματα από ανοξείδωτο χάλυβα 316L &amp; Γράμματα Carbon</h3></div></a>
+        <a href="#" class="project-card"><div class="info"><h3 data-i18n="works_card6">Fenders</h3></div></a>
+        <a href="#" class="project-card"><div class="info"><h3 data-i18n="works_card7">Κολώνες Σκίασης</h3></div></a>
+        <a href="#" class="project-card"><div class="info"><h3 data-i18n="works_card8">PROLINER – 3D SCANNER</h3></div></a>
       </div>
     </section>
     <!-- Contact -->
 <section id="contact" class="contact-section">
   <div class="container">
     <div class="contact-header">
-      <h2>Επικοινωνήστε μαζί μας</h2>
-      <p>Θα χαρούμε να σας ακούσουμε — επιλέξτε τον τρόπο επικοινωνίας που σας βολεύει.</p>
+      <h2 data-i18n="contact_h2">Επικοινωνήστε μαζί μας</h2>
+      <p data-i18n="contact_sub">Θα χαρούμε να σας ακούσουμε — επιλέξτε τον τρόπο επικοινωνίας που σας βολεύει.</p>
     </div>
     <div class="contact-content">
       <div class="contact-info">
@@ -419,20 +482,21 @@
         </div>
       </div>
       <form class="contact-form" action="#" method="POST">
-        <p class="form-note">Αυτή είναι η φόρμα επικοινωνίας μας. Μπορείτε να στείλετε email απευθείας από εδώ.</p>
+        <p class="form-note" data-i18n="form_note">Αυτή είναι η φόρμα επικοινωνίας μας. Μπορείτε να στείλετε email απευθείας από εδώ.</p>
         <div class="form-row">
-          <input type="text" name="name" placeholder="Όνομα*" required>
-          <input type="email" name="email" placeholder="Email*" required>
+          <input type="text" name="name" placeholder="Όνομα*" data-i18n-placeholder="name_placeholder" required>
+          <input type="email" name="email" placeholder="Email*" data-i18n-placeholder="email_placeholder" required>
         </div>
-        <textarea name="message" rows="5" placeholder="Μήνυμά σας*" required></textarea>
-        <button type="submit" class="btn-primary">Αποστολή</button>
+        <textarea name="message" rows="5" placeholder="Μήνυμά σας*" data-i18n-placeholder="message_placeholder" required></textarea>
+        <button type="submit" class="btn-primary" data-i18n="form_btn">Αποστολή</button>
       </form>
     </div>
   </div>
 </section>
+
   </main>
   <footer>
-    <p>© 2025 NG Inox. Cookies &amp; Προστασία Δεδομένων</p>
+    <p data-i18n="footer_text">© 2025 NG Inox.</p>
     <div class="social-links">
       <a href="https://www.instagram.com/nginoxxylouris/" target="_blank" rel="noopener"><i class="fab fa-instagram"></i> Instagram</a>
       <a href="https://www.facebook.com/NGinoxxylouris/" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i> Facebook</a>
